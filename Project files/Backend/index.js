@@ -4,7 +4,7 @@ const path = require("path");
 const app = express();
 const cors = require('cors')
 const jwt = require('jsonwebtoken');
-const port = process.env.PORT || 5100;
+const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const { MONGO_URI } = require('./db/connect');
 app.use(express.json());
