@@ -14,7 +14,7 @@ RUN npm ci --omit=dev
 COPY . .
 
 # Application port
-EXPOSE 5000
+EXPOSE 5100
 
 # Start the application
 CMD ["npm", "start"]
