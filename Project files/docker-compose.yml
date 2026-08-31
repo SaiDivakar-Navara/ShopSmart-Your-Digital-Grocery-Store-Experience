@@ -1,8 +1,7 @@
 services:
 
   frontend:
-    build:
-      context: ./Frontend
+    image: saidivakar/myproject-frontend:latest
     container_name: mern-frontend
     ports:
       - "80:80"
@@ -12,8 +11,7 @@ services:
       - app-network
 
   backend:
-    build:
-      context: ./Backend
+    image: saidivakar/myproject-backend:latest
     container_name: mern-backend
     ports:
       - "5100:5100"
