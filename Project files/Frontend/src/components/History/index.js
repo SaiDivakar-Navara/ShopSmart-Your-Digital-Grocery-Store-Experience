@@ -4,6 +4,7 @@ import Cookies from 'js-cookies';
 import styled from 'styled-components';
 import Header from '../Header';
 
+
 // Styled components
 const Container = styled.div`
   padding: 20px;
@@ -33,43 +34,134 @@ const Strong = styled.strong`
 
 const History = () => {
   const userId = Cookies.getItem('userId');
+
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5100/my-orders/${userId}`)
-      .then((response) => {
-        // Assuming response.data is an array of orders
+    const fetchOrders = async () => {
+      // Don't make API request if user is not logged in
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
+
+      if (!API_URL) {
+        console.error('VITE_API_URL is not configured.');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const response = await axios.get(
+          `/api/my-orders/${userId}`
+        );
+
         setOrders(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching orders:', error);
-      });
-  }, [userId]); // Include userId in the dependency array to re-fetch orders when it changes
+
+        if (error.response) {
+          console.error(
+            'Server response:',
+            error.response.data
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [userId]);
+
+  if (loading) {
+    return (
+      <div>
+        <Header />
+
+        <Container>
+          <h1 className="text-center">
+            Loading orders...
+          </h1>
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <Header/>
-      <Container>
-      <h1 className='text-center'>My History</h1>
-      <OrderList>
-        {orders.map((order) => {
-          const isDelivered = order.status === 'Delivered' || order.status === 'Canceled';
+      <Header />
 
-          return isDelivered ? (
-            <OrderItem key={order._id} style={{ border: order.status === 'Delivered' ? '1px solid green' : '1px solid red' }}>
-              <Strong>Order ID:</Strong> {order._id} <br />
-              <Strong>Name:</Strong> {order.firstname} {order.lastname} <br />
-              <Strong>Phone:</Strong> {order.phone} <br />
-              <Strong>Date:</Strong> {order.createdAt} <br />
-              <Strong>Price:</Strong> {order.price} <br />
-              <Strong>Status:</Strong> {order.status} <br />
-              <Strong>Payment Method:</Strong> {order.paymentMethod} <br />
-            </OrderItem>
-          ) : null;
-        })}
-      </OrderList>
-    </Container>
+      <Container>
+        <h1 className="text-center">My History</h1>
+
+        {!userId ? (
+          <p className="text-center">
+            Please login to view your order history.
+          </p>
+        ) : orders.length === 0 ? (
+          <p className="text-center">
+            No completed or canceled orders found.
+          </p>
+        ) : (
+          <OrderList>
+            {orders.map((order) => {
+              const isDelivered =
+                order.status === 'Delivered';
+
+              const isCanceled =
+                order.status === 'Canceled';
+
+              // Only show Delivered or Canceled orders
+              if (!isDelivered && !isCanceled) {
+                return null;
+              }
+
+              return (
+                <OrderItem
+                  key={order._id}
+                  style={{
+                    border: isDelivered
+                      ? '1px solid green'
+                      : '1px solid red',
+                  }}
+                >
+                  <Strong>Order ID:</Strong>{' '}
+                  {order._id}
+                  <br />
+
+                  <Strong>Name:</Strong>{' '}
+                  {order.firstname} {order.lastname}
+                  <br />
+
+                  <Strong>Phone:</Strong>{' '}
+                  {order.phone}
+                  <br />
+
+                  <Strong>Date:</Strong>{' '}
+                  {order.createdAt}
+                  <br />
+
+                  <Strong>Price:</Strong>{' '}
+                  {order.price}
+                  <br />
+
+                  <Strong>Status:</Strong>{' '}
+                  {order.status}
+                  <br />
+
+                  <Strong>Payment Method:</Strong>{' '}
+                  {order.paymentMethod}
+                  <br />
+                </OrderItem>
+              );
+            })}
+          </OrderList>
+        )}
+      </Container>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 services:
-
   frontend:
     image: saidivakar/myproject-frontend:latest
     container_name: mern-frontend
@@ -22,18 +21,3 @@ services:
       - mongodb
     networks:
       - app-network
-
-  mongodb:
-    image: mongo:8
-    container_name: mern-mongodb
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  mongo-data:
