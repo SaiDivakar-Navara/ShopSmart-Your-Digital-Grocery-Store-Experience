@@ -55,28 +55,18 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!API_URL) {
-      console.error(
-        'VITE_API_URL is not configured.'
-      );
-
-      alert('API configuration is missing.');
-      return;
-    }
-
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `/api/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      // Nginx will forward /api/register
+      // to the backend container.
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 

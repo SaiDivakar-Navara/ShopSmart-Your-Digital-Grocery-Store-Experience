@@ -4,7 +4,6 @@ import Cookies from 'js-cookies';
 import styled from 'styled-components';
 import Header from '../Header';
 
-
 // Styled components
 const Container = styled.div`
   padding: 20px;
@@ -41,15 +40,6 @@ const MyOrders = () => {
         return;
       }
 
-      // API URL is not configured
-      if (!API_URL) {
-        console.error(
-          'VITE_API_URL is not configured.'
-        );
-        setLoading(false);
-        return;
-      }
-
       try {
         setLoading(true);
 
@@ -62,6 +52,10 @@ const MyOrders = () => {
         console.error(
           'Error fetching orders:',
           error
+        );
+
+        alert(
+          'Unable to fetch your orders. Please try again.'
         );
       } finally {
         setLoading(false);
@@ -86,6 +80,11 @@ const MyOrders = () => {
     );
   }
 
+  // Only show orders that are NOT delivered
+  const activeOrders = orders.filter(
+    (order) => order.status !== 'Delivered'
+  );
+
   return (
     <div>
       <Header />
@@ -95,55 +94,50 @@ const MyOrders = () => {
           My Orders
         </h1>
 
+        {/* User is not logged in */}
         {!userId ? (
           <p className="text-center">
             Please login to view your orders.
           </p>
-        ) : orders.length === 0 ? (
+        ) : activeOrders.length === 0 ? (
+          /* No active orders */
           <p className="text-center">
-            You don't have any orders yet.
+            You don't have any active orders.
           </p>
         ) : (
           <OrderList>
-            {orders.map((order) => {
-              // Don't show delivered orders
-              if (order.status === 'Delivered') {
-                return null;
-              }
+            {activeOrders.map((order) => (
+              <OrderItem key={order._id}>
+                <Strong>Order ID:</Strong>{' '}
+                {order._id}
+                <br />
 
-              return (
-                <OrderItem key={order._id}>
-                  <Strong>Order ID:</Strong>{' '}
-                  {order._id}
-                  <br />
+                <Strong>Name:</Strong>{' '}
+                {order.firstname}{' '}
+                {order.lastname}
+                <br />
 
-                  <Strong>Name:</Strong>{' '}
-                  {order.firstname}{' '}
-                  {order.lastname}
-                  <br />
+                <Strong>Phone:</Strong>{' '}
+                {order.phone}
+                <br />
 
-                  <Strong>Phone:</Strong>{' '}
-                  {order.phone}
-                  <br />
+                <Strong>Date:</Strong>{' '}
+                {order.createdAt}
+                <br />
 
-                  <Strong>Date:</Strong>{' '}
-                  {order.createdAt}
-                  <br />
+                <Strong>Price:</Strong>{' '}
+                {order.price}
+                <br />
 
-                  <Strong>Price:</Strong>{' '}
-                  {order.price}
-                  <br />
+                <Strong>Status:</Strong>{' '}
+                {order.status}
+                <br />
 
-                  <Strong>Status:</Strong>{' '}
-                  {order.status}
-                  <br />
-
-                  <Strong>Payment Method:</Strong>{' '}
-                  {order.paymentMethod}
-                  <br />
-                </OrderItem>
-              );
-            })}
+                <Strong>Payment Method:</Strong>{' '}
+                {order.paymentMethod}
+                <br />
+              </OrderItem>
+            ))}
           </OrderList>
         )}
       </Container>

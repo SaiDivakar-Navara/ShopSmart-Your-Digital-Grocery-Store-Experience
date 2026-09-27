@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Form,
+  Button,
+  Card,
+} from 'react-bootstrap';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 import Cookies from 'js-cookies';
 import Header from '../Header';
-
 
 const commonFields = [
   {
@@ -31,7 +38,8 @@ const Login = () => {
   // Redirect if already logged in
   useEffect(() => {
     const token = Cookies.getItem('jwtToken');
-    const adminToken = localStorage.getItem('adminJwtToken');
+    const adminToken =
+      localStorage.getItem('adminJwtToken');
 
     if (token) {
       navigate('/');
@@ -44,19 +52,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!API_URL) {
-      console.error(
-        'VITE_API_URL is not configured. Please check your .env file.'
-      );
-
-      alert('API configuration is missing.');
-      return;
-    }
-
     try {
       setLoading(true);
 
-      const response = await fetch(`/api/login`, {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,11 +68,18 @@ const Login = () => {
       if (response.ok) {
         // Normal user login
         if (data.token) {
-          Cookies.setItem('jwtToken', data.token, {
-            expires: 30,
-          });
+          Cookies.setItem(
+            'jwtToken',
+            data.token,
+            {
+              expires: 30,
+            }
+          );
 
-          Cookies.setItem('userId', data.user._id);
+          Cookies.setItem(
+            'userId',
+            data.user._id
+          );
 
           Cookies.setItem(
             'userName',
@@ -102,7 +108,9 @@ const Login = () => {
 
         // Successful response but no token
         else {
-          alert('Login failed. Token was not received.');
+          alert(
+            'Login failed. Token was not received.'
+          );
         }
       } else {
         alert(
@@ -111,7 +119,10 @@ const Login = () => {
         );
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error(
+        'Error during login:',
+        error
+      );
 
       alert(
         'Unable to connect to the server. Please try again.'
@@ -147,7 +158,9 @@ const Login = () => {
           style={{ width: '400px' }}
         >
           <Card.Body>
-            <h2 className="mb-4">Login</h2>
+            <h2 className="mb-4">
+              Login
+            </h2>
 
             <Form onSubmit={handleSubmit}>
               {commonFields.map((field) => (
@@ -156,7 +169,9 @@ const Login = () => {
                     textAlign: 'start',
                     marginBottom: '10px',
                   }}
-                  controlId={field.controlId}
+                  controlId={
+                    field.controlId
+                  }
                   key={field.controlId}
                 >
                   <Form.Label>
@@ -168,9 +183,13 @@ const Login = () => {
                     placeholder={`Enter ${field.label.toLowerCase()}`}
                     name={field.controlId}
                     value={
-                      formData[field.controlId]
+                      formData[
+                        field.controlId
+                      ]
                     }
-                    onChange={handleInputChange}
+                    onChange={
+                      handleInputChange
+                    }
                     required
                   />
                 </Form.Group>
@@ -181,7 +200,9 @@ const Login = () => {
                 className="btn-primary w-100 mt-3"
                 disabled={loading}
               >
-                {loading ? 'Logging in...' : 'Login'}
+                {loading
+                  ? 'Logging in...'
+                  : 'Login'}
               </Button>
             </Form>
 

@@ -12,7 +12,6 @@ import {
   ButtonContainer,
 } from './styledComponents';
 
-
 const ProductItem = ({
   id,
   name,
@@ -25,23 +24,15 @@ const ProductItem = ({
 
     // Check whether user is logged in
     if (!userId) {
-      alert('Please login to add products to your cart.');
-      return;
-    }
-
-    // Check API configuration
-    if (!API_URL) {
-      console.error(
-        'VITE_API_URL is not configured.'
+      alert(
+        'Please login to add products to your cart.'
       );
-
-      alert('API configuration is missing.');
       return;
     }
 
     try {
       await axios.post(
-        `/api/add-to-cart`,
+        '/api/add-to-cart',
         {
           userId,
           productId: id,
@@ -99,9 +90,7 @@ const ProductItem = ({
           Buy Now
         </Link>
 
-        <Button
-          onClick={handleAddToCart}
-        >
+        <Button onClick={handleAddToCart}>
           Add to Cart
         </Button>
       </ButtonContainer>

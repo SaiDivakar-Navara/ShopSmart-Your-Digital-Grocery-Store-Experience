@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ProductItem from '../ProductItem';
 import Header from '../Header';
 
-
 const ProductsContainer = styled.div`
   margin-top: 10vh;
   padding: 20px;
@@ -71,22 +70,12 @@ const Products = () => {
   // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
-      if (!API_URL) {
-        console.error(
-          'VITE_API_URL is not configured.'
-        );
-
-        setError('API configuration is missing.');
-        setLoading(false);
-        return;
-      }
-
       try {
         setLoading(true);
         setError('');
 
         const response = await fetch(
-          `/api/products`
+          '/api/products'
         );
 
         if (!response.ok) {
@@ -170,6 +159,7 @@ const Products = () => {
       <Header />
 
       <ProductsContainer>
+
         {/* Carousel */}
         <div
           id="carouselExampleIndicators"
@@ -195,6 +185,7 @@ const Products = () => {
           </ol>
 
           <div className="carousel-inner">
+
             <div className="carousel-item active">
               {/* Add first banner here if needed */}
             </div>
@@ -214,6 +205,7 @@ const Products = () => {
                 alt="Third slide"
               />
             </div>
+
           </div>
 
           <a
@@ -251,6 +243,7 @@ const Products = () => {
 
         {/* Filters */}
         <FiltersContainer>
+
           <div className="w-100">
             <h3>
               Search By Product Name
@@ -285,6 +278,7 @@ const Products = () => {
               )}
             </CategoryFilter>
           </div>
+
         </FiltersContainer>
 
         <Heading>
@@ -342,6 +336,7 @@ const Products = () => {
               )}
             </StyledList>
           )}
+
       </ProductsContainer>
     </div>
   );

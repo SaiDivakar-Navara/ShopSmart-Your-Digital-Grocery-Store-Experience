@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookies';
 import Header from '../Header';
 
-
-
 const FormContainer = styled.div`
   text-align: start;
   width: 600px;
@@ -83,18 +81,10 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Check API configuration
-  useEffect(() => {
-    if (!API_URL) {
-      console.error(
-        'VITE_API_URL is not configured. Please check your .env file.'
-      );
-    }
-  }, []);
-
   // Fetch product details
   useEffect(() => {
-    if (!id || !API_URL) {
+    if (!id) {
+      setLoading(false);
       return;
     }
 
@@ -135,11 +125,6 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!API_URL) {
-      alert('API URL is not configured.');
-      return;
-    }
-
     if (!id) {
       alert('Product ID is missing.');
       return;
@@ -169,7 +154,7 @@ const Checkout = () => {
       };
 
       const response = await axios.post(
-        `/api/orders`,
+        '/api/orders',
         formDetails
       );
 
@@ -190,7 +175,11 @@ const Checkout = () => {
       console.error('Error creating order:', error);
 
       if (error.response) {
-        console.error('Server response:', error.response.data);
+        console.error(
+          'Server response:',
+          error.response.data
+        );
+
         alert(
           error.response.data?.message ||
             'Failed to create the order.'
@@ -207,8 +196,11 @@ const Checkout = () => {
     return (
       <div>
         <Header />
+
         <FormContainer>
-          <FormHeader>Loading product...</FormHeader>
+          <FormHeader>
+            Loading product...
+          </FormHeader>
         </FormContainer>
       </div>
     );
@@ -219,11 +211,14 @@ const Checkout = () => {
       <Header />
 
       <FormContainer>
-        <FormHeader>Order Details</FormHeader>
+        <FormHeader>
+          Order Details
+        </FormHeader>
 
         {/* Product information */}
         <div style={{ marginBottom: '20px' }}>
           <h3>{productDetails.productname}</h3>
+
           <p>
             Price: ₹{productDetails.price}
           </p>
@@ -326,8 +321,13 @@ const Checkout = () => {
             </Select>
           </FormGroup>
 
-          <Button type="submit" disabled={submitting}>
-            {submitting ? 'Placing Order...' : 'Submit'}
+          <Button
+            type="submit"
+            disabled={submitting}
+          >
+            {submitting
+              ? 'Placing Order...'
+              : 'Submit'}
           </Button>
         </form>
       </FormContainer>

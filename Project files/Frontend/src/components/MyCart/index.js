@@ -24,14 +24,6 @@ const MyCart = () => {
         return;
       }
 
-      if (!API_URL) {
-        console.error(
-          'VITE_API_URL is not configured.'
-        );
-        setLoading(false);
-        return;
-      }
-
       try {
         setLoading(true);
 
@@ -47,6 +39,10 @@ const MyCart = () => {
           'Error fetching cart items:',
           error
         );
+
+        alert(
+          'Unable to fetch your cart. Please try again.'
+        );
       } finally {
         setLoading(false);
       }
@@ -57,24 +53,19 @@ const MyCart = () => {
 
   // Remove product from cart
   const handleCancelClick = async (productId) => {
-    if (!API_URL) {
-      console.error(
-        'VITE_API_URL is not configured.'
-      );
-      return;
-    }
-
     try {
       await axios.delete(
         `/api/remove-from-cart/${productId}`
       );
 
-      // Remove the item from the current state
+      // Update UI immediately after successful deletion
       setCartData((previousCartData) =>
         previousCartData.filter(
-          (item) => item.productId !== productId
+          (item) => item._id !== productId
         )
       );
+
+      alert('Product removed from cart.');
     } catch (error) {
       console.error(
         'Error removing product from cart:',
@@ -87,6 +78,7 @@ const MyCart = () => {
     }
   };
 
+  // Loading state
   if (loading) {
     return (
       <div>
@@ -113,13 +105,16 @@ const MyCart = () => {
       </h1>
 
       <div className="container mx-auto px-4 my-4">
+        {/* User not logged in */}
         {!userId ? (
           <p>
             Please login to view your cart.
           </p>
         ) : cartData.length === 0 ? (
+          /* Empty cart */
           <p>Your cart is empty.</p>
         ) : (
+          /* Cart products */
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {cartData.map((product) => (
               <ProductContainer

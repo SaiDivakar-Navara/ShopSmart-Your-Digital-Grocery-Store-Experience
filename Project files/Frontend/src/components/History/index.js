@@ -4,7 +4,6 @@ import Cookies from 'js-cookies';
 import styled from 'styled-components';
 import Header from '../Header';
 
-
 // Styled components
 const Container = styled.div`
   padding: 20px;
@@ -42,12 +41,6 @@ const History = () => {
     const fetchOrders = async () => {
       // Don't make API request if user is not logged in
       if (!userId) {
-        setLoading(false);
-        return;
-      }
-
-      if (!API_URL) {
-        console.error('VITE_API_URL is not configured.');
         setLoading(false);
         return;
       }
@@ -91,34 +84,35 @@ const History = () => {
     );
   }
 
+  // Filter only completed/canceled orders
+  const completedOrders = orders.filter(
+    (order) =>
+      order.status === 'Delivered' ||
+      order.status === 'Canceled'
+  );
+
   return (
     <div>
       <Header />
 
       <Container>
-        <h1 className="text-center">My History</h1>
+        <h1 className="text-center">
+          My History
+        </h1>
 
         {!userId ? (
           <p className="text-center">
             Please login to view your order history.
           </p>
-        ) : orders.length === 0 ? (
+        ) : completedOrders.length === 0 ? (
           <p className="text-center">
             No completed or canceled orders found.
           </p>
         ) : (
           <OrderList>
-            {orders.map((order) => {
+            {completedOrders.map((order) => {
               const isDelivered =
                 order.status === 'Delivered';
-
-              const isCanceled =
-                order.status === 'Canceled';
-
-              // Only show Delivered or Canceled orders
-              if (!isDelivered && !isCanceled) {
-                return null;
-              }
 
               return (
                 <OrderItem
@@ -134,7 +128,8 @@ const History = () => {
                   <br />
 
                   <Strong>Name:</Strong>{' '}
-                  {order.firstname} {order.lastname}
+                  {order.firstname}{' '}
+                  {order.lastname}
                   <br />
 
                   <Strong>Phone:</Strong>{' '}
