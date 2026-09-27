@@ -1,23 +1,24 @@
 services:
   frontend:
-    image: saidivakar/myproject-frontend:latest
-    container_name: mern-frontend
+    image: saidivakar/shopsmart-frontend:latest
+    container_name: shopsmart-frontend
     ports:
       - "80:80"
     depends_on:
       - backend
     networks:
-      - app-network
+      - shopsmart-network
 
   backend:
-    image: saidivakar/myproject-backend:latest
-    container_name: mern-backend
+    image: saidivakar/shopsmart-backend:latest
+    container_name: shopsmart-backend
     ports:
       - "5100:5100"
-    environment:
-      PORT: 5100
-      MONGODB_URI: mongodb://mongodb:27017/mernapp
-    depends_on:
-      - mongodb
+    env_file:
+      - ./backend.env
     networks:
-      - app-network
+      - shopsmart-network
+
+networks:
+  shopsmart-network:
+    driver: bridge
