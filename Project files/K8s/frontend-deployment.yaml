@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopsmart-frontend
+  labels:
+    app: shopsmart-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shopsmart-frontend
+  template:
+    metadata:
+      labels:
+        app: shopsmart-frontend
+    spec:
+      containers:
+      - name: shopsmart-frontend
+        image: saidivakar/shopsmart-frontend:latest
+        ports:
+        - containerPort: 80
