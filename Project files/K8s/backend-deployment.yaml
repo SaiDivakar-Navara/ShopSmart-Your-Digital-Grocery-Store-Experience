@@ -28,11 +28,11 @@ spec:
         - containerPort: 5100
 
         env:
-        - name: MONGO_URI
+        - name: MONGODB_URI
           valueFrom:
             secretKeyRef:
               name: shopsmart-backend-secret
-              key: MONGO_URI
+              key: MONGODB_URI
 
         - name: JWT_SECRET
           valueFrom:
