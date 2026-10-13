@@ -23,7 +23,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./Backend
-          file: ./Backend/dockerfile
+          file: ./Project files/Backend/dockerfile
           push: false
           tags: shopsmart-backend:ci
 
@@ -31,6 +31,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./Frontend
-          file: ./Frontend/dockerfile
+          file: ./Project files/Frontend/dockerfile
           push: false
           tags: shopsmart-frontend:ci
