@@ -10,7 +10,8 @@ pnpm-debug.log*
 # =========================
 # Environment / Secrets
 # =========================
-.env
+backend.env
+frontend.env
 .env.*
 !.env.example
 
