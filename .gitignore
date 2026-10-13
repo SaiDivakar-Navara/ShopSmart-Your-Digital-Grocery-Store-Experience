@@ -10,7 +10,7 @@ pnpm-debug.log*
 # =========================
 # Environment / Secrets
 # =========================
-backend.env
+**/backend.env
 frontend.env
 .env.*
 !.env.example
@@ -45,7 +45,7 @@ Thumbs.db
 # Terraform
 # =========================
 .terraform/
-.terraform.lock.hcl
+*.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
 *.tfvars
