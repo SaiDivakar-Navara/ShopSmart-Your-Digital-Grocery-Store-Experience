@@ -1,5 +1,4 @@
 name: ShopSmart CI
-
 on:
   push:
     branches:
@@ -7,12 +6,10 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     name: Build Docker Images
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
