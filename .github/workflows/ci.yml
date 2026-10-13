@@ -22,7 +22,7 @@ jobs:
       - name: Build Backend Image
         uses: docker/build-push-action@v6
         with:
-          context: ./Backend
+          context: ./Project files/Backend
           file: ./Project files/Backend/dockerfile
           push: false
           tags: shopsmart-backend:ci
@@ -30,7 +30,7 @@ jobs:
       - name: Build Frontend Image
         uses: docker/build-push-action@v6
         with:
-          context: ./Frontend
+          context: ./Project files/Frontend
           file: ./Project files/Frontend/dockerfile
           push: false
           tags: shopsmart-frontend:ci
