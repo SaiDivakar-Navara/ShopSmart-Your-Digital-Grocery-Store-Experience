@@ -22,7 +22,7 @@ spec:
       containers:
       - name: shopsmart-backend
 
-        image: saidivakar/shopsmart-backend:latest
+        image: 196659290647.dkr.ecr.us-east-1.amazonaws.com/shopsmart-backend:1d0bd954d8b910df8aa55a1e64201176c1f9ab07-1
 
         ports:
         - containerPort: 5100

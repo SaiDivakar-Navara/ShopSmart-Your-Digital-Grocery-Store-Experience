@@ -22,7 +22,7 @@ const Home = () => {
         <CenteredRow>
           <ContentColumn>
             {/* <img src='https://img.freepik.com/free-vector/online-grocery-store-banner-design_23-2150089535.jpg?size=626&ext=jpg&ga=GA1.1.1700460183.1712534400&semt=ais' /> */}
-            <Heading>Welcome to Our Grocery Web App</Heading>
+            <Heading>Welcome to Our NANI's Grocery Web App</Heading>
             <Paragraph>Discover a wide range of Grocery's and Fresh Items for all your needs</Paragraph>
             <PrimaryButton> <Link to='/shopping' style={{textDecoration:'none',color:'white',fontWeight:'bolder'}}>Shop Now</Link> </PrimaryButton>
           </ContentColumn>

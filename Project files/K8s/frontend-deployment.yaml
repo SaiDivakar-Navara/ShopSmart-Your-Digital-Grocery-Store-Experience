@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: shopsmart-frontend
-        image: saidivakar/shopsmart-frontend:latest
+        image: 196659290647.dkr.ecr.us-east-1.amazonaws.com/shopsmart-frontend:1d0bd954d8b910df8aa55a1e64201176c1f9ab07-1
         ports:
         - containerPort: 80
