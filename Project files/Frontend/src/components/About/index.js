@@ -44,6 +44,10 @@ const About = () => {
                     got you covered. Shop with us and experience the joy of quality
                     groceries at your doorstep.
                 </Paragraph>
+                <Paragraph>
+                    Thank you for choosing GroceryMart. We look forward to serving you and
+                    being a part of your culinary journey!
+                </Paragraph>
             </div>
         </AboutContainer>
     );
