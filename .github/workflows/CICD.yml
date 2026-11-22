@@ -101,8 +101,19 @@ jobs:
           NEW_TAG: ${{ needs.build-and-push.outputs.image_tag }}
         run: |
           sed -i \
-            "s|^  tag:.*|  tag: \"${NEW_TAG}\"|" \
+            "s|^    tag:.*|    tag: \"${NEW_TAG}\"|" \
             "$HELM_VALUES_FILE"
+
+          echo "Updated image tags:"
+          grep -n "tag:" "$HELM_VALUES_FILE"
+
+          # Fail if the image tags were not updated
+          if grep -q 'tag: "initial"' "$HELM_VALUES_FILE"; then
+            echo "ERROR: Image tags were not updated!"
+            exit 1
+          fi
+
+          echo "Helm values updated successfully."
 
       - name: Commit and Push Helm Changes
         run: |
