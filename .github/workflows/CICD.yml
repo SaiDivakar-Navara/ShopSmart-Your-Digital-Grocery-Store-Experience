@@ -24,7 +24,7 @@ env:
   ECR_BACKEND_REPOSITORY: shopsmart-backend
   ECR_FRONTEND_REPOSITORY: shopsmart-frontend
 
-  HELM_VALUES_FILE: helm/shopsmart/values.yaml
+  HELM_VALUES_FILE: Helm/values.yaml
 
 jobs:
   build-and-push:
