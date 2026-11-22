@@ -1,0 +1,11 @@
+backend:
+  image:
+    repository: 196659290647.dkr.ecr.us-east-1.amazonaws.com/shopsmart-backend
+    tag: "initial"
+    pullPolicy: IfNotPresent
+
+frontend:
+  image:
+    repository: 196659290647.dkr.ecr.us-east-1.amazonaws.com/shopsmart-frontend
+    tag: "initial"
+    pullPolicy: IfNotPresent
